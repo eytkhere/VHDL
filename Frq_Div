@@ -1,0 +1,55 @@
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity Q5_A is
+Port(Clk: in STD_LOGIC;
+     reset: in STD_LOGIC:='0';
+     div: in STD_LOGIC_VECTOR(1 downto 0);
+     div_Clk: buffer STD_LOGIC:='0');
+end Q5_A;
+
+architecture Behavioral of Q5_A is
+signal count: INTEGER:=1;
+begin
+process(Clk)
+begin
+if (reset='1') then
+-- reset all components
+    count<=1;
+    div_Clk<='0';
+elsif (rising_edge(Clk)) then
+    if (div="00") then
+        if (count = 250000) then 
+            div_Clk <= not div_Clk;
+            -- reset count in order to recount all rising edges of the outside clock
+            count<=1;
+        else
+            count<=count + 1;
+        end if;
+     elsif (div="01") then
+        if (count = 25000) then 
+            div_Clk <= not div_Clk;
+            count<=1;
+        else
+            count<=count + 1;
+        end if;
+    elsif (div="10") then
+        if (count = 2500) then 
+            div_Clk <= not div_Clk;
+            count<=1;
+        else
+            count<=count + 1;
+        end if;
+    elsif (div="11") then
+        if (count = 250) then 
+            div_Clk <= not div_Clk;
+            count<=1;
+        else
+            count<=count + 1;
+        end if;
+    end if;
+end if;
+end process;
+end Behavioral;
