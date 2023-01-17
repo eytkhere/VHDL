@@ -1,0 +1,39 @@
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity Q5_A_TB is
+--  Port ( );
+end Q5_A_TB;
+
+architecture Behavioral of Q5_A_TB is
+component Q5_A
+Port(Clk: in STD_LOGIC;
+     reset: in STD_LOGIC;
+     div: in STD_LOGIC_VECTOR(1 downto 0);
+     div_Clk: buffer STD_LOGIC);
+end component;
+signal Clk: STD_LOGIC:='1';
+signal div_Clk: STD_LOGIC;
+signal reset: STD_LOGIC:='0';
+signal div: STD_LOGIC_VECTOR(1 downto 0);
+begin
+U1: Q5_A Port Map(Clk=>Clk, reset=>reset, div_Clk=>div_Clk, div=>div);
+process
+begin
+Clk<= not Clk; wait for 10 ns;
+end process;
+process
+begin
+div<="00"; wait for 11 ms;
+div<="01"; wait for 1.5 ms;
+div<="10"; wait for 0.15 ms;
+div<="11"; wait for 15 us;
+end process;
+process
+begin
+wait for 12 ms;
+reset<= '1'; wait for 1 ns;
+reset<= '0';
+end process;
+end Behavioral;
